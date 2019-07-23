@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const connectDB = require("./config/dbconnect");
+const passport = require("passport");
 
 const app = express();
 
@@ -17,6 +18,11 @@ app.use(bodyParser.json());
 
 //connect database
 connectDB();
+
+//passport-Setup
+app.use(passport.initialize());
+
+require("./config/passport")(passport);
 
 app.use("/api", index);
 app.use("/api/user", user);

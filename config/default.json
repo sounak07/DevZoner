@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://sounak07:Sounak08@devcon-3iuei.mongodb.net/test?retryWrites=true&w=majority"
+  "mongoURI": "mongodb+srv://sounak07:Sounak08@devcon-3iuei.mongodb.net/test?retryWrites=true&w=majority",
+  "secret": "xajYVdbdaIndXEd"
 }

@@ -3,6 +3,9 @@ const router = express.Router();
 const User = require("../../models/User");
 const gravatar = require("gravatar");
 const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const config = require("config");
+const secret = config.get("secret");
 
 //user route test
 router.get("/", (req, res) => {
@@ -17,7 +20,7 @@ router.post("/register", (req, res) => {
     .then(user => {
       if (user) {
         res.status(409).json({
-          message: "Email already exists"
+          email: "Email already exists"
         });
       } else {
         const avatar = gravatar.url(req.body.email, {
@@ -66,17 +69,37 @@ router.post("/register", (req, res) => {
     });
 });
 
-// //login route
-// router.post("/login", (req, res) => {
-//   User.findOne({ email: req.body.email }).then(user => {
-//     if (!user) {
-//       res.status(404).json({
-//         message: "User doesnot exist"
-//       });
-//     } else {
+//login route
+router.post("/login", (req, res) => {
+  User.findOne({ email: req.body.email }).then(user => {
+    if (!user) {
+      res.status(404).json({
+        message: "User doesnot exist!"
+      });
+    }
 
-//     }
-//   });
-// });
+    bcryptjs.compare(req.body.password, user.password).then(passMatch => {
+      if (passMatch) {
+        const payLoad = {
+          email: user.email,
+          name: user.name,
+          avatar: user.avatar
+        };
+
+        jwt.sign(payLoad, secret, { expiresIn: 3600 }, (err, token) => {
+          if (err) throw err;
+          res.json({
+            success: true,
+            token: `Bearer ${token}`
+          });
+        });
+      } else {
+        return res.status(404).json({
+          password: "Incorrect Password"
+        });
+      }
+    });
+  });
+});
 
 module.exports = router;
