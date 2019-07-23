@@ -6,6 +6,7 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const secret = config.get("secret");
+const passport = require("passport");
 
 //user route test
 router.get("/", (req, res) => {
@@ -81,6 +82,7 @@ router.post("/login", (req, res) => {
     bcryptjs.compare(req.body.password, user.password).then(passMatch => {
       if (passMatch) {
         const payLoad = {
+          id: user._id,
           email: user.email,
           name: user.name,
           avatar: user.avatar
@@ -101,5 +103,17 @@ router.post("/login", (req, res) => {
     });
   });
 });
+
+//private
+router.get(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json({
+      email: req.user.email,
+      name: req.user.name
+    });
+  }
+);
 
 module.exports = router;
