@@ -104,6 +104,9 @@ const ProfileSchema = new Schema({
     },
     linkedin: {
       type: String
+    },
+    instagram: {
+      type: String
     }
   },
   date: {
