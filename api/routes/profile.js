@@ -32,7 +32,8 @@ router.get(
   }
 );
 
-//update profile post route
+//update profile or post new profle route
+//private route
 router.post(
   "/",
   passport.authenticate("jwt", { session: false }),

@@ -12,6 +12,13 @@ const posts = require("./api/routes/posts");
 const index = require("./api/routes/index");
 const auth = require("./api/routes/auth");
 
+const logRequestStart = (req, res, next) => {
+  console.info(`${req.method} ${req.originalUrl}`);
+  next();
+};
+
+app.use(logRequestStart);
+
 //bodyParser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
