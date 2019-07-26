@@ -32,6 +32,67 @@ router.get(
   }
 );
 
+//GET ALL USER PROFILES
+//PUBLIC ROUTE
+router.get("/all", (req, res) => {
+  Profile.find()
+    .then(profiles => {
+      if (!profiles) {
+        errors.noprofile = "No profiles found";
+        res.status(404).json(errors);
+      }
+
+      res.status(200).json(profiles);
+    })
+    .catch(e => {
+      errors.noprofile = "No profiles found";
+      res.status(404).json(errors);
+    });
+});
+
+//GET USERS BY HANDLE
+//PUBLIC ROUTE
+
+router.get("/handle/:handle", (req, res) => {
+  Profile.findOne({ handle: req.params.handle })
+    .populate("user", ["name", "avatar"])
+    .then(profile => {
+      if (!profile) {
+        errors.noprofile = "User doesnot exist";
+        return res.status(404).json(errors);
+      }
+
+      res.status(200).json(profile);
+    })
+    .catch(e => {
+      res.status(404).json({
+        error: "Not found"
+      });
+    });
+});
+
+//GET USERS BY USER ID
+//PUBLIC ROUTE
+
+router.get("/user/:user_id", (req, res) => {
+  const errors = {};
+
+  Profile.findOne({ user: req.params.user_id })
+    .populate("user", ["name", "avatar"])
+    .then(profile => {
+      if (!profile) {
+        errors.noprofile = "User doesnot exist";
+        return res.status(404).json(errors);
+      }
+      res.status(200).json(profile);
+    })
+    .catch(e => {
+      res.status(404).json({
+        error: "Not found"
+      });
+    });
+});
+
 //update profile or post new profle route
 //private route
 router.post(
@@ -89,16 +150,16 @@ router.post(
               errors.handle = "Handle exists try new one!";
               return res.status(409).json(errors);
             }
-          });
 
-          new Profile(profileField)
-            .save()
-            .then(profile => {
-              res.status(200).json(profile);
-            })
-            .catch(e => {
-              res.status(400).json(e);
-            });
+            new Profile(profileField)
+              .save()
+              .then(profile => {
+                res.status(200).json(profile);
+              })
+              .catch(e => {
+                res.status(400).json(e);
+              });
+          });
         }
       })
       .catch(e => {
