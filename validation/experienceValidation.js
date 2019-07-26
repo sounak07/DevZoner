@@ -1,7 +1,7 @@
 const validator = require("validator");
 const isEmpty = require("./is-Empty");
 
-module.exports = function registrationValid(data) {
+module.exports = function experienceValid(data) {
   let errors = {};
 
   data.title = !isEmpty(data.title) ? data.title : "";
