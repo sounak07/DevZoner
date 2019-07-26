@@ -8,6 +8,8 @@ const User = require("../../models/User");
 
 //validation
 const validationProfileInput = require("../../validation/profile");
+const validationExperienceInput = require("../../validation/experienceValidation");
+// const validationEducationInput = require("../../validation/")
 
 //get profile route
 router.get(
@@ -167,5 +169,53 @@ router.post(
       });
   }
 );
+
+//POST ROUTE FOR EXPERIENCE
+//PRIVATE ROUTE
+
+router.post(
+  "/experience",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validationExperienceInput(req.body);
+
+    // const errors = {};
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+
+    const experiencedetails = {};
+    if (req.body.title) experiencedetails.title = req.body.title;
+    if (req.body.company) experiencedetails.company = req.body.company;
+    if (req.body.location) experiencedetails.location = req.body.location;
+    if (req.body.from) experiencedetails.from = req.body.from;
+    if (req.body.to) experiencedetails.to = req.body.to;
+    experiencedetails.current = req.body.current;
+    if (req.body.description)
+      experiencedetails.description = req.body.description;
+
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        if (!profile) {
+          errors.noprofile = "No found";
+          res.status(404).json(errors);
+        } else {
+          profile.experience.unshift(experiencedetails);
+
+          profile.save().then(profile => {
+            res.status(200).json(profile);
+          });
+        }
+      })
+      .catch(e => {
+        errors.noprofile = "No found";
+        res.status(404).json(errors);
+      });
+  }
+);
+
+//POST ROUTE FOR EXPERIENCE
+//PRIVATE ROUTE
 
 module.exports = router;
