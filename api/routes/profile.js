@@ -295,4 +295,33 @@ router.delete(
   }
 );
 
+//DELETE ROUTE FOR DELETE EDUCATION.
+//PRIVATE
+
+router.delete(
+  "/education/:edu_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      if (!profile) {
+        errors.noprofile = "Not found";
+        return res.status(404).json(errors);
+      } else {
+        const removeIndex = profile.education
+          .map(item => item.id)
+          .indexOf(req.params.edu_id);
+
+        if (removeIndex === -1) {
+          res.status(404).json({
+            error: "Not found"
+          });
+        } else {
+          profile.education.splice(removeIndex, 1);
+          profile.save().then(profile => res.status(200).json(profile));
+        }
+      }
+    });
+  }
+);
+
 module.exports = router;
