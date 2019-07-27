@@ -252,6 +252,43 @@ router.post(
         }
       })
       .catch(e => {
+        errors.noprofile = "Not found";
+        res.status(404).json(errors);
+      });
+  }
+);
+
+//DELETE ROUTE FOR DELETE EXP.
+//PRIVATE
+
+router.delete(
+  "/experience/:exp_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        if (!profile) {
+          errors.noprofile = "No found";
+          res.status(404).json(errors);
+        } else {
+          const removeIndex = profile.experience
+            .map(item => item.id)
+            .indexOf(req.params.exp_id);
+
+          if (removeIndex === -1) {
+            res.status(404).json({
+              error: "Not found"
+            });
+          } else {
+            // Splice out of array
+            profile.experience.splice(removeIndex, 1);
+
+            // Save
+            profile.save().then(profile => res.json(profile));
+          }
+        }
+      })
+      .catch(e => {
         errors.noprofile = "No found";
         res.status(404).json(errors);
       });
