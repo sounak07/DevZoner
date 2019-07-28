@@ -10,7 +10,6 @@ const user = require("./api/routes/user");
 const profile = require("./api/routes/profile");
 const posts = require("./api/routes/posts");
 const index = require("./api/routes/index");
-const auth = require("./api/routes/auth");
 
 const logRequestStart = (req, res, next) => {
   console.info(`${req.method} ${req.originalUrl}`);
@@ -48,7 +47,6 @@ require("./config/passport")(passport);
 
 app.use("/api", index);
 app.use("/api/user", user);
-app.use("/api/auth", auth);
 app.use("/api/profile", profile);
 app.use("/api/posts", posts);
 
