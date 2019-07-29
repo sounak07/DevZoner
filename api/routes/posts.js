@@ -6,6 +6,7 @@ const passport = require("passport");
 const Post = require("../../models/Post");
 const Profile = require("../../models/Post");
 const validationPostInput = require("../../validation/postValidation");
+const validationCommentInput = require("../../validation/commentValidation");
 
 //GET ALL POSTS
 //PUBLIC ROUTE
@@ -182,6 +183,50 @@ router.post(
       .save()
       .then(post => {
         res.status(200).json(post);
+      })
+      .catch(e => {
+        errors.nopost = "Could not save";
+        res.status(400).json();
+      });
+  }
+);
+
+//ADD COMMENTS ROUTE
+//PRIVATE ROUTE
+router.post(
+  "/addComment/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { errors, isValid } = validationCommentInput(req.body);
+
+    // const errors = {};
+
+    if (!isValid) {
+      return res.status(400).json(errors);
+    }
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        if (!profile) {
+          errors.noprofile = "No profile found";
+          res.status(404).json(errors);
+        } else {
+          Post.findById(req.params.id).then(post => {
+            if (!post) {
+              errors.noprofile = "No post found";
+              res.status(404).json(errors);
+            } else {
+              const newComment = {
+                user: req.user.id,
+                text: req.body.text,
+                name: req.body.name,
+                avatar: req.body.avatar
+              };
+
+              post.comments.unshift(newComment);
+              post.save().then(post => res.status(200).json(post));
+            }
+          });
+        }
       })
       .catch(e => {
         errors.nopost = "Could not save";
