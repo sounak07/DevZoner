@@ -199,38 +199,64 @@ router.post(
   (req, res) => {
     const { errors, isValid } = validationCommentInput(req.body);
 
-    // const errors = {};
-
     if (!isValid) {
       return res.status(400).json(errors);
     }
-    Profile.findOne({ user: req.user.id })
-      .then(profile => {
-        if (!profile) {
-          errors.noprofile = "No profile found";
+
+    Post.findById(req.params.id)
+      .then(post => {
+        if (!post) {
+          errors.noprofile = "No post found";
           res.status(404).json(errors);
         } else {
-          Post.findById(req.params.id).then(post => {
-            if (!post) {
-              errors.noprofile = "No post found";
-              res.status(404).json(errors);
-            } else {
-              const newComment = {
-                user: req.user.id,
-                text: req.body.text,
-                name: req.body.name,
-                avatar: req.body.avatar
-              };
+          const newComment = {
+            user: req.user.id,
+            text: req.body.text,
+            name: req.body.name,
+            avatar: req.body.avatar
+          };
 
-              post.comments.unshift(newComment);
-              post.save().then(post => res.status(200).json(post));
-            }
-          });
+          post.comments.unshift(newComment);
+          post.save().then(post => res.status(200).json(post));
         }
       })
       .catch(e => {
-        errors.nopost = "Could not save";
-        res.status(400).json();
+        errors.nopost = "Profile not found";
+        res.status(404).json();
+      });
+  }
+);
+
+//REMOVE COMMENTS ROUTE
+//PRIVATE ROUTE
+router.delete(
+  "/removeComment/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    let errors = {};
+
+    Post.findById(req.params.id)
+      .then(post => {
+        if (!post) {
+          errors.post = "No post found";
+          res.status(404).json(errors);
+        } else {
+          const removeCommentIndex = post.comments
+            .map(comment => comment.user)
+            .indexOf(req.user.id);
+
+          if (removeCommentIndex === -1) {
+            errors.noComments = "No comments found";
+            return res.status(400).json(errors);
+          } else {
+            post.comments.splice(removeCommentIndex, 1);
+            post.save().then(post => res.status(200).json(post));
+          }
+        }
+      })
+      .catch(e => {
+        errors.nopost = "Profile not found";
+        res.status(404).json();
       });
   }
 );
