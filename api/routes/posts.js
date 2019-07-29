@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 
 const Post = require("../../models/Post");
+const Profile = require("../../models/Post");
 const validationPostInput = require("../../validation/postValidation");
 
 //GET ALL POSTS
@@ -23,7 +24,7 @@ router.get("/all", (req, res) => {
 
 //GET POSTS BY ID
 //PUBLIC ROUTE
-router.get("/post/:post_id", (req, res) => {
+router.get("/:post_id", (req, res) => {
   let errors = {};
   Post.findById(req.params.post_id)
     .then(post => {
@@ -39,6 +40,37 @@ router.get("/post/:post_id", (req, res) => {
       res.status(404).json();
     });
 });
+
+//DELETE ROUTE FOR POSTS
+//PRIVATE ROUTE
+router.delete(
+  "/removePost/:post_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    let errors = {};
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        if (profile) {
+          Post.findById(req.params.post_id).then(post => {
+            if (post.user.toString() !== req.user.id) {
+              errors.notAuth = "Not Authorised";
+              return res.status(402).json(errors);
+            }
+
+            post.remove().then(post => {
+              res.status(200).json({
+                success: true
+              });
+            });
+          });
+        }
+      })
+      .catch(e => {
+        errors.noprofile = "No profile found";
+        res.status(404).json(errors);
+      });
+  }
+);
 
 //POST POSTS
 //PRIVATE ROUTE
