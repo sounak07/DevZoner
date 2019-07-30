@@ -15,6 +15,16 @@ class Login extends Component {
     });
   };
 
+  submitHandler = event => {
+    event.preventDefault();
+    const data = {
+      email: this.state.email,
+      password: this.state.password
+    };
+
+    console.log(data);
+  };
+
   render() {
     return (
       <div className="login">
@@ -25,20 +35,24 @@ class Login extends Component {
               <p className="lead text-center">
                 Sign in to your DevConnector account
               </p>
-              <form action="dashboard.html">
+              <form onSubmit={this.submitHandler}>
                 <div className="form-group">
                   <input
                     type="email"
+                    value={this.state.email}
                     className="form-control form-control-lg"
                     placeholder="Email Address"
+                    onChange={this.inputHandler}
                     name="email"
                   />
                 </div>
                 <div className="form-group">
                   <input
+                    value={this.state.password}
                     type="password"
                     className="form-control form-control-lg"
                     placeholder="Password"
+                    onChange={this.inputHandler}
                     name="password"
                   />
                 </div>
