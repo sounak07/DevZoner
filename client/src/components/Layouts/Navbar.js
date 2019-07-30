@@ -1,13 +1,14 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 
 class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
         <div className="container">
-          <a className="navbar-brand" href="landing.html">
+          <NavLink className="navbar-brand" to="/">
             DevZone
-          </a>
+          </NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -20,25 +21,25 @@ class Navbar extends Component {
           <div className="collapse navbar-collapse" id="mobile-nav">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <a className="nav-link" href="profiles.html">
+                <NavLink className="nav-link" to="/profiles">
                   {" "}
                   Developers
-                </a>
+                </NavLink>
               </li>
             </ul>
 
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <a className="nav-link" href="feed.html">
-                  Post Feed
-                </a>
+                <NavLink className="nav-link" to="/login">
+                  Login
+                </NavLink>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="dashboard.html">
-                  Dashboard
-                </a>
+                <NavLink className="nav-link" to="/signup">
+                  Signup
+                </NavLink>
               </li>
-              <li className="nav-item">
+              {/* <li className="nav-item">
                 <a className="nav-link" href="#">
                   <img
                     className="rounded-circle"
@@ -49,7 +50,7 @@ class Navbar extends Component {
                   />{" "}
                   Logout
                 </a>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
