@@ -1,1 +1,2 @@
-export const AUTH_REGISTER = "AUTH_REGISTER";
+export const SAVE_USER = "SAVE_USER";
+export const ERROR = "ERROR";

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import classnames from "classnames";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { registerUser } from "../../store/actions/authAction";
 
 class Register extends Component {
@@ -8,8 +9,7 @@ class Register extends Component {
     name: "",
     email: "",
     password: "",
-    password2: "",
-    errors: {}
+    password2: ""
   };
 
   inputHandler = event => {
@@ -30,20 +30,11 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    this.props.registerUser(data);
-
-    // axios
-    //   .post("/api/user/register", data)
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(e => {
-    //     this.setState({ errors: e.response.data });
-    //   });
+    this.props.registerUser(data, this.props.history);
   };
 
   render() {
-    const { errors } = this.state;
+    const errors = this.props.errors;
 
     return (
       <div className="register">
@@ -51,9 +42,7 @@ class Register extends Component {
           <div className="row">
             <div className="col-md-8 m-auto">
               <h1 className="display-4 text-center">Sign Up</h1>
-              <p className="lead text-center">
-                Create your DevConnector account
-              </p>
+              <p className="lead text-center">Create your DevZone account</p>
               <form noValidate onSubmit={this.submitHandler}>
                 <div className="form-group">
                   <input
@@ -132,11 +121,12 @@ class Register extends Component {
 
 const mapStateToProps = state => {
   return {
-    user: state.auth.user
+    user: state.auth.user,
+    errors: state.auth.errors
   };
 };
 
 export default connect(
   mapStateToProps,
   { registerUser }
-)(Register);
+)(withRouter(Register));
