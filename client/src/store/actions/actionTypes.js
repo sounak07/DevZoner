@@ -1,0 +1,1 @@
+export const AUTH_REGISTER = "AUTH_REGISTER";
