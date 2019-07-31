@@ -1,11 +1,14 @@
 import React, { Component } from "react";
+import axios from "axios";
+import classnames from "classnames";
 
 class Register extends Component {
   state = {
     name: "",
     email: "",
     password: "",
-    password2: ""
+    password2: "",
+    errors: {}
   };
 
   inputHandler = event => {
@@ -26,10 +29,19 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    console.log(data);
+    axios
+      .post("/api/user/register", data)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(e => {
+        this.setState({ errors: e.response.data });
+      });
   };
 
   render() {
+    const { errors } = this.state;
+
     return (
       <div className="register">
         <div className="container">
@@ -39,27 +51,37 @@ class Register extends Component {
               <p className="lead text-center">
                 Create your DevConnector account
               </p>
-              <form onSubmit={this.submitHandler}>
+              <form noValidate onSubmit={this.submitHandler}>
                 <div className="form-group">
                   <input
                     type="text"
                     onChange={this.inputHandler}
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.name
+                    })}
                     placeholder="Name"
                     name="name"
                     value={this.state.name}
                     required
                   />
+                  {errors.name && (
+                    <div className="invalid-feedback">{errors.name}</div>
+                  )}
                 </div>
                 <div className="form-group">
                   <input
                     type="email"
                     onChange={this.inputHandler}
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.email
+                    })}
                     placeholder="Email Address"
                     value={this.state.email}
                     name="email"
                   />
+                  {errors.email && (
+                    <div className="invalid-feedback">{errors.email}</div>
+                  )}
                   <small className="form-text text-muted">
                     This site uses Gravatar so if you want a profile image, use
                     a Gravatar email
@@ -69,21 +91,31 @@ class Register extends Component {
                   <input
                     type="password"
                     onChange={this.inputHandler}
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.password
+                    })}
                     placeholder="Password"
                     value={this.state.password}
                     name="password"
                   />
+                  {errors.name && (
+                    <div className="invalid-feedback">{errors.password}</div>
+                  )}
                 </div>
                 <div className="form-group">
                   <input
                     type="password"
                     onChange={this.inputHandler}
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.password2
+                    })}
                     placeholder="Confirm Password"
                     value={this.state.password2}
                     name="password2"
                   />
+                  {errors.password2 && (
+                    <div className="invalid-feedback">{errors.password2}</div>
+                  )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
