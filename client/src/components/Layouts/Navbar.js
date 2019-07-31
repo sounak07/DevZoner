@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import { connect } from "react-redux";
+import { logout } from "../../store/actions/authAction";
 
 class Navbar extends Component {
   render() {
@@ -27,31 +29,45 @@ class Navbar extends Component {
                 </NavLink>
               </li>
             </ul>
-
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/login">
-                  Login
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/signup">
-                  Signup
-                </NavLink>
-              </li>
-              {/* <li className="nav-item">
-                <a className="nav-link" href="#">
-                  <img
-                    className="rounded-circle"
-                    style={{ width: "25px", marginRight: "5px" }}
-                    src="https://www.gravatar.com/avatar/anything?s=200&d=mm"
-                    alt=""
-                    title="You must have a Gravatar connected to your email to display an image"
-                  />{" "}
-                  Logout
-                </a>
-              </li> */}
-            </ul>
+            {!this.props.auth ? (
+              <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/login">
+                    Login
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/signup">
+                    Signup
+                  </NavLink>
+                </li>
+              </ul>
+            ) : (
+              <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/postfeed">
+                    Post feed
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/dashboard">
+                    Dashboard
+                  </NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" onClick={this.props.logout}>
+                    <img
+                      className="rounded-circle"
+                      style={{ width: "25px", marginRight: "5px" }}
+                      src={this.props.user.avatar}
+                      alt={this.props.user.name}
+                      title="You must have a Gravatar connected to your email to display an image"
+                    />{" "}
+                    Logout
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </nav>
@@ -59,4 +75,14 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+const mapStateToProps = state => {
+  return {
+    auth: state.auth.isAuthenticated,
+    user: state.auth.user
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { logout }
+)(Navbar);

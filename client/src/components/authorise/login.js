@@ -3,6 +3,7 @@ import classnames from "classnames";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { loginUser } from "../../store/actions/authAction";
+import Input from "../UI/Input";
 
 class Login extends Component {
   state = {
@@ -43,36 +44,22 @@ class Login extends Component {
                   Sign in to your DevZone account
                 </p>
                 <form noValidate onSubmit={this.submitHandler}>
-                  <div className="form-group">
-                    <input
-                      type="email"
-                      value={this.state.email}
-                      className={classnames("form-control form-control-lg", {
-                        "is-invalid": errors.email
-                      })}
-                      placeholder="Email Address"
-                      onChange={this.inputHandler}
-                      name="email"
-                    />
-                    {errors.email && (
-                      <div className="invalid-feedback">{errors.email}</div>
-                    )}
-                  </div>
-                  <div className="form-group">
-                    <input
-                      value={this.state.password}
-                      type="password"
-                      className={classnames("form-control form-control-lg", {
-                        "is-invalid": errors.password
-                      })}
-                      placeholder="Password"
-                      onChange={this.inputHandler}
-                      name="password"
-                    />
-                    {errors.password && (
-                      <div className="invalid-feedback">{errors.password}</div>
-                    )}
-                  </div>
+                  <Input
+                    type="email"
+                    name="email"
+                    placeholder="Email Address"
+                    onChange={this.inputHandler}
+                    error={errors.email}
+                    value={this.state.email}
+                  />
+                  <Input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    onChange={this.inputHandler}
+                    error={errors.password}
+                    value={this.state.password}
+                  />
                   <input
                     type="submit"
                     className="btn btn-info btn-block mt-4"

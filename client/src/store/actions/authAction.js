@@ -57,6 +57,26 @@ export const checkAuthState = () => {
       setAuthToken(token);
       const decoded = jwtDecoded(token);
       dispatch(saveUser(decoded));
+
+      const currentTime = Date.now() / 1000;
+      if (currentTime > decoded.exp) {
+        dispatch(logout());
+        window.location.href = "/login";
+      }
     }
+  };
+};
+
+export const logoutHandler = () => {
+  localStorage.removeItem("jwtToken");
+  setAuthToken(false);
+  return dispatch => {
+    dispatch(saveUser({}));
+  };
+};
+
+export const logout = () => {
+  return dispatch => {
+    dispatch(logoutHandler());
   };
 };
