@@ -8,6 +8,7 @@ import Register from "./components/authorise/signup";
 import { checkAuthState } from "./store/actions/authAction";
 import Login from "./components/authorise/login";
 import Dashboard from "./components/dashboard/dashboard";
+import CreateProfile from "./components/createProfile/createProfile";
 import "./App.css";
 
 class App extends Component {
@@ -24,6 +25,7 @@ class App extends Component {
           <Route path="/signup" component={Register} />
           <Route path="/login" component={Login} />
           <Route path="/dashboard" component={Dashboard} />
+          <Route path="/createprofile" component={CreateProfile} />
         </Switch>
         <Footer />
       </BrowserRouter>
