@@ -3,6 +3,7 @@ import Input from "../UI/Input";
 import TextArea from "../UI/TextArea";
 import { Link, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { addExperience } from "../../store/actions/profileAction";
 
 class AddExperience extends Component {
   state = {
@@ -18,7 +19,17 @@ class AddExperience extends Component {
 
   submitHandler = event => {
     event.preventDefault();
-    console.log("submit");
+    const expData = {
+      company: this.state.company,
+      title: this.state.title,
+      location: this.state.location,
+      from: this.state.from,
+      to: this.state.to,
+      current: this.state.current,
+      description: this.state.description
+    };
+
+    this.props.addExperience(expData, this.props.history);
   };
 
   onCheck = () => {
@@ -142,4 +153,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withRouter(AddExperience));
+export default connect(
+  mapStateToProps,
+  { addExperience }
+)(withRouter(AddExperience));

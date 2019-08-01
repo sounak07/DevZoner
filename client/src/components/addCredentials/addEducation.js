@@ -3,6 +3,7 @@ import Input from "../UI/Input";
 import TextArea from "../UI/TextArea";
 import { Link, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { addEducation } from "../../store/actions/profileAction";
 
 class AddEducation extends Component {
   state = {
@@ -18,7 +19,17 @@ class AddEducation extends Component {
 
   submitHandler = event => {
     event.preventDefault();
-    console.log("submit");
+    const eduData = {
+      school: this.state.school,
+      degree: this.state.degree,
+      fieldofstudy: this.state.fieldofstudy,
+      from: this.state.from,
+      to: this.state.to,
+      current: this.state.current,
+      description: this.state.description
+    };
+
+    this.props.addEducation(eduData, this.props.history);
   };
 
   onCheck = () => {
@@ -45,14 +56,14 @@ class AddEducation extends Component {
       <div>
         {isAuthenticated ? null : <Redirect to="/login" />}
 
-        <div className="add-experience">
+        <div className="add-education">
           <div className="container">
             <div className="row">
               <div className="col-md-8 m-auto">
                 <Link to="/dashboard" className="btn btn-light">
                   Go Back
                 </Link>
-                <h1 className="display-4 text-center">Add Experience</h1>
+                <h1 className="display-4 text-center">Add Education</h1>
                 <p className="lead text-center">
                   Add any education title that you have had in the past or
                   current
@@ -142,4 +153,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(withRouter(AddEducation));
+export default connect(
+  mapStateToProps,
+  { addEducation }
+)(withRouter(AddEducation));

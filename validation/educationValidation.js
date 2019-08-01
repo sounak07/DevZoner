@@ -9,11 +9,11 @@ module.exports = function eductionValid(data) {
   data.from = !isEmpty(data.from) ? data.from : "";
 
   if (validator.isEmpty(data.school)) {
-    errors.title = "School cannot be empty";
+    errors.school = "School cannot be empty";
   }
 
   if (validator.isEmpty(data.degree)) {
-    errors.company = "Degree cannot be empty";
+    errors.degree = "Degree cannot be empty";
   }
 
   if (validator.isEmpty(data.from)) {
