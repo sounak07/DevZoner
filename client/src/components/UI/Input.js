@@ -15,7 +15,7 @@ const input = ({
   return (
     <div className="form-group">
       <input
-        type={name}
+        type={type}
         value={value}
         className={classnames("form-control form-control-lg", {
           "is-invalid": error

@@ -10,6 +10,9 @@ import Login from "./components/authorise/login";
 import Dashboard from "./components/dashboard/dashboard";
 import CreateProfile from "./components/createProfile/createProfile";
 import EditProfile from "./components/editProfile/EditProfile";
+import AddExperience from "./components/addCredentials/addExperience";
+import AddEducation from "./components/addCredentials/addEducation";
+
 import "./App.css";
 
 class App extends Component {
@@ -28,6 +31,8 @@ class App extends Component {
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/createprofile" component={CreateProfile} />
           <Route path="/editprofile" component={EditProfile} />
+          <Route path="/addexperience" component={AddExperience} />
+          <Route path="/addeducation" component={AddEducation} />
         </Switch>
         <Footer />
       </BrowserRouter>
