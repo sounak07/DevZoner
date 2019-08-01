@@ -1,6 +1,7 @@
 import axios from "axios";
 import jwtDecoded from "jwt-decode";
 import setAuthToken from "../../utils/setAuthToken";
+import { clearProfile } from "./profileAction";
 
 import * as actionTypes from "../actions/actionTypes";
 
@@ -61,6 +62,7 @@ export const checkAuthState = () => {
       const currentTime = Date.now() / 1000;
       if (currentTime > decoded.exp) {
         dispatch(logout());
+        dispatch(clearProfile());
         window.location.href = "/login";
       }
     }

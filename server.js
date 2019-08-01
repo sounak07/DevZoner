@@ -27,21 +27,21 @@ connectDB();
 
 //passport-Setup
 app.use(passport.initialize());
-app.use((req, res, next) => {
-  //CORS
+// app.use((req, res, next) => {
+//   //CORS
 
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization"
-  );
-  res.header("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS,DELETE");
-  res.header(
-    "Access-Control-Expose-Headers",
-    "X-Api-Version, X-Request-Id, X-Response-Time"
-  );
-  next();
-});
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization"
+//   );
+//   res.header("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS,DELETE");
+//   res.header(
+//     "Access-Control-Expose-Headers",
+//     "X-Api-Version, X-Request-Id, X-Response-Time"
+//   );
+//   next();
+// });
 
 require("./config/passport")(passport);
 

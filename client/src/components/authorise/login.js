@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import classnames from "classnames";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { loginUser } from "../../store/actions/authAction";
@@ -34,7 +33,7 @@ class Login extends Component {
     const errors = this.props.errors;
     return (
       <div>
-        {this.props.isAuth ? this.props.history.push("/dasboard") : null}
+        {this.props.isAuth ? this.props.history.push("/dashboard") : null}
         <div className="login">
           <div className="container">
             <div className="row">

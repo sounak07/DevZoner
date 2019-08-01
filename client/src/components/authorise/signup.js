@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import classnames from "classnames";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { registerUser } from "../../store/actions/authAction";
@@ -39,7 +38,7 @@ class Register extends Component {
 
     return (
       <div>
-        {this.props.isAuth ? this.props.history.push("/dasboard") : null}
+        {this.props.isAuth ? this.props.history.push("/dashboard") : null}
         <div className="register">
           <div className="container">
             <div className="row">

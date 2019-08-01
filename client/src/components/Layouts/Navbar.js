@@ -2,8 +2,15 @@ import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../../store/actions/authAction";
+import { clearProfile } from "../../store/actions/profileAction";
 
 class Navbar extends Component {
+  onLogOut = e => {
+    e.preventDefault();
+    this.props.logout();
+    this.props.clearProfile();
+  };
+
   render() {
     return (
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark mb-4">
@@ -55,7 +62,7 @@ class Navbar extends Component {
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className="nav-link" onClick={this.props.logout}>
+                  <NavLink className="nav-link" onClick={this.onLogOut}>
                     <img
                       className="rounded-circle"
                       style={{ width: "25px", marginRight: "5px" }}
@@ -84,5 +91,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { logout }
+  { logout, clearProfile }
 )(Navbar);

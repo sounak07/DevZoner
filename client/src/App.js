@@ -7,6 +7,7 @@ import Landing from "./components/Layouts/Landing";
 import Register from "./components/authorise/signup";
 import { checkAuthState } from "./store/actions/authAction";
 import Login from "./components/authorise/login";
+import Dashboard from "./components/dashboard/dashboard";
 import "./App.css";
 
 class App extends Component {
@@ -22,6 +23,7 @@ class App extends Component {
           <Route exact path="/" component={Landing} />
           <Route path="/signup" component={Register} />
           <Route path="/login" component={Login} />
+          <Route path="/dashboard" component={Dashboard} />
         </Switch>
         <Footer />
       </BrowserRouter>
