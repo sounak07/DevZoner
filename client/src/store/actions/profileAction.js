@@ -33,3 +33,21 @@ export const loading = () => {
     type: actionTypes.LOADING
   };
 };
+
+export const errorsHandle = errors => {
+  return {
+    type: actionTypes.ALL_ERRORS,
+    payload: errors
+  };
+};
+
+export const postProfile = (data, history) => {
+  return dispatch => {
+    axios
+      .post("/api/profile/", data)
+      .then(res => history.push("/dashboard"))
+      .catch(e => {
+        dispatch(errorsHandle(e.response.data));
+      });
+  };
+};

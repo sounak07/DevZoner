@@ -3,7 +3,8 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   profile: null,
   profiles: null,
-  loading: false
+  loading: false,
+  errors: {}
 };
 
 const profile = (state = initialState, action) => {

@@ -7,12 +7,13 @@ import { createStore, applyMiddleware, compose, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import authReducer from "./store/reducers/auth";
 import profileReducer from "./store/reducers/profileReducer";
+import errorReducer from "./store/reducers/errorReducer";
 import * as serviceWorker from "./serviceWorker";
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  profile: profileReducer
-  // odr: order
+  profile: profileReducer,
+  error: errorReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

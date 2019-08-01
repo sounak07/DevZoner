@@ -4,7 +4,8 @@ import TextFieldGroup from "../UI/Input";
 import InputSocial from "../UI/InputSocial";
 import TextArea from "../UI/TextArea";
 import SelectListGroup from "../UI/SelectListGroup";
-import { Redirect } from "react-router-dom";
+import { Redirect, withRouter } from "react-router-dom";
+import { postProfile } from "../../store/actions/profileAction";
 
 class CreateProfile extends Component {
   state = {
@@ -43,7 +44,9 @@ class CreateProfile extends Component {
       instagram: this.state.instagram
     };
 
-    //   // this.props.createProfile(profileData, this.props.history);
+    console.log("submit");
+
+    this.props.postProfile(profileData, this.props.history);
   };
 
   onChange = event => {
@@ -58,7 +61,9 @@ class CreateProfile extends Component {
   render() {
     let socialInputs;
 
-    const { errors, isAuthenticated } = this.props.auth;
+    const { isAuthenticated } = this.props.auth;
+
+    const { errors } = this.props.error;
 
     const options = [
       { label: "* Select Professional Status", value: 0 },
@@ -231,8 +236,12 @@ class CreateProfile extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
-    user: state.user
+    user: state.user,
+    error: state.error
   };
 };
 
-export default connect(mapStateToProps)(CreateProfile);
+export default connect(
+  mapStateToProps,
+  { postProfile }
+)(withRouter(CreateProfile));
