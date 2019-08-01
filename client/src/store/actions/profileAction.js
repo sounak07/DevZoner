@@ -8,15 +8,12 @@ export const getCurrentProfile = () => {
     axios
       .get("/api/profile")
       .then(res => {
-        console.log(res.data);
         dispatch({
           type: actionTypes.GET_PROFILE,
           payload: res.data
         });
       })
       .catch(e => {
-        console.log(e);
-
         dispatch({
           type: actionTypes.GET_PROFILE,
           payload: {}
