@@ -9,6 +9,7 @@ import { checkAuthState } from "./store/actions/authAction";
 import Login from "./components/authorise/login";
 import Dashboard from "./components/dashboard/dashboard";
 import CreateProfile from "./components/createProfile/createProfile";
+import EditProfile from "./components/editProfile/EditProfile";
 import "./App.css";
 
 class App extends Component {
@@ -26,6 +27,7 @@ class App extends Component {
           <Route path="/login" component={Login} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/createprofile" component={CreateProfile} />
+          <Route path="/editprofile" component={EditProfile} />
         </Switch>
         <Footer />
       </BrowserRouter>

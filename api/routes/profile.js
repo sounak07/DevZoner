@@ -132,41 +132,31 @@ router.post(
     if (req.body.instagram) profileField.social.instagram = req.body.instagram;
     if (req.body.linkedin) profileField.social.linkedin = req.body.linkedin;
 
-    User.findOne({ user: req.user.id })
-      .then(profile => {
-        if (profile) {
-          Profile.findByIdAndUpdate(
-            { id: req.body.id },
-            { $set: profileField },
-            { new: true }
-          )
-            .then(profile => {
-              res.status(200).json(profile);
-            })
-            .catch(e => {
-              res.status(400).json(e);
-            });
-        } else {
-          Profile.findOne({ handle: req.body.handle }).then(profile => {
-            if (profile) {
-              errors.handle = "Handle exists try new one!";
-              return res.status(409).json(errors);
-            }
-
-            new Profile(profileField)
-              .save()
-              .then(profile => {
-                res.status(200).json(profile);
-              })
-              .catch(e => {
-                res.status(400).json(e);
-              });
-          });
-        }
-      })
-      .catch(e => {
-        res.status(404).json(e);
-      });
+    Profile.findOne({ user: req.user.id }).then(profile => {
+      // Create new profile
+      if (!profile) {
+        Profile.findOne({ handle: profileField.handle }).then(profile => {
+          if (profile) {
+            errors.handle = "handle already exists";
+            res.status(400).json(errors);
+          }
+        });
+        new Profile(profileField).save().then(profile => res.json(profile));
+      } else {
+        // Check if handle exists for other user
+        Profile.findOne({ handle: profileField.handle }).then(p => {
+          if (profile.handle !== p.handle) {
+            errors.handle = "handle already exists";
+            res.status(400).json(errors);
+          }
+        });
+        Profile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileField },
+          { new: true }
+        ).then(profile => res.json(profile));
+      }
+    });
   }
 );
 

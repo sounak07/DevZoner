@@ -5,7 +5,11 @@ import InputSocial from "../UI/InputSocial";
 import TextArea from "../UI/TextArea";
 import SelectListGroup from "../UI/SelectListGroup";
 import { Redirect, withRouter } from "react-router-dom";
-import { postProfile } from "../../store/actions/profileAction";
+import {
+  postProfile,
+  getCurrentProfile
+} from "../../store/actions/profileAction";
+import isEmpty from "../../validations/isEmpty";
 
 class CreateProfile extends Component {
   state = {
@@ -55,6 +59,61 @@ class CreateProfile extends Component {
       [name]: value
     });
   };
+
+  componentDidMount() {
+    this.props.getCurrentProfile();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.profile.profile) {
+      const profile = nextProps.profile.profile;
+
+      // Bring skills array back to CSV
+      const skillsCSV = profile.skills.join(",");
+
+      // If profile field doesnt exist, make empty string
+      profile.company = !isEmpty(profile.company) ? profile.company : "";
+      profile.website = !isEmpty(profile.website) ? profile.website : "";
+      profile.location = !isEmpty(profile.location) ? profile.location : "";
+      profile.githubusername = !isEmpty(profile.githubusername)
+        ? profile.githubusername
+        : "";
+      profile.bio = !isEmpty(profile.bio) ? profile.bio : "";
+      profile.social = !isEmpty(profile.social) ? profile.social : {};
+      profile.twitter = !isEmpty(profile.social.twitter)
+        ? profile.social.twitter
+        : "";
+      profile.facebook = !isEmpty(profile.social.facebook)
+        ? profile.social.facebook
+        : "";
+      profile.linkedin = !isEmpty(profile.social.linkedin)
+        ? profile.social.linkedin
+        : "";
+      profile.youtube = !isEmpty(profile.social.youtube)
+        ? profile.social.youtube
+        : "";
+      profile.instagram = !isEmpty(profile.social.instagram)
+        ? profile.social.instagram
+        : "";
+
+      // Set component fields state
+      this.setState({
+        handle: profile.handle,
+        company: profile.company,
+        website: profile.website,
+        location: profile.location,
+        status: profile.status,
+        skills: skillsCSV,
+        githubusername: profile.githubusername,
+        bio: profile.bio,
+        twitter: profile.twitter,
+        facebook: profile.facebook,
+        linkedin: profile.linkedin,
+        youtube: profile.youtube,
+        instagram: profile.instagram
+      });
+    }
+  }
 
   render() {
     let socialInputs;
@@ -141,6 +200,7 @@ class CreateProfile extends Component {
                     value={this.state.handle}
                     onChange={this.onChange}
                     error={errors.handle}
+                    disabled
                     info="A unique handle for your profile URL. Your full name, company name, nickname"
                   />
                   <SelectListGroup
@@ -234,11 +294,12 @@ class CreateProfile extends Component {
 const mapStateToProps = state => {
   return {
     auth: state.auth,
+    profile: state.profile,
     error: state.error
   };
 };
 
 export default connect(
   mapStateToProps,
-  { postProfile }
+  { postProfile, getCurrentProfile }
 )(withRouter(CreateProfile));
