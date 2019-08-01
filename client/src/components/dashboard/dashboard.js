@@ -1,13 +1,22 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import { getCurrentProfile } from "../../store/actions/profileAction";
+import {
+  getCurrentProfile,
+  deleteAccount
+} from "../../store/actions/profileAction";
 import Spinner from "../UI/Spinner/Spinner";
+import ProfileActions from "./profileActions";
 
 class Dashboard extends Component {
   componentDidMount() {
     this.props.getCurrentProfile();
   }
+
+  onDeleteAccount = () => {
+    this.props.deleteAccount();
+  };
+
   render() {
     const { profile, loading } = this.props.profile;
     const { user, isAuthenticated } = this.props.auth;
@@ -20,20 +29,16 @@ class Dashboard extends Component {
       if (Object.keys(profile).length > 0) {
         dashboardContent = (
           <div>
-            <h4>My profile</h4>
-            {/* <p className="lead text-muted">
+            <p className="lead text-muted">
               Welcome <Link to={`/profile/${profile.handle}`}>{user.name}</Link>
             </p>
             <ProfileActions />
-            <Experience experience={profile.experience} />
-            <Education education={profile.education} />
+            {/* <Experience experience={profile.experience} />
+            <Education education={profile.education} /> */}
             <div style={{ marginBottom: "60px" }} />
-            <button
-              onClick={this.onDeleteClick.bind(this)}
-              className="btn btn-danger"
-            >
+            <button onClick={this.onDeleteAccount} className="btn btn-danger">
               Delete My Account
-            </button> */}
+            </button>
           </div>
         );
       } else {
@@ -75,5 +80,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, deleteAccount }
 )(Dashboard);

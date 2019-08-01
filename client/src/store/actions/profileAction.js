@@ -51,3 +51,21 @@ export const postProfile = (data, history) => {
       });
   };
 };
+
+export const deleteAccount = () => {
+  return dispatch => {
+    if (window.confirm("Are you sure?")) {
+      axios
+        .delete("/api/profile")
+        .then(res => {
+          dispatch({
+            type: actionTypes.SAVE_USER,
+            payload: {}
+          });
+        })
+        .catch(e => {
+          dispatch(errorsHandle(e.response.data));
+        });
+    }
+  };
+};
