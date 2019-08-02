@@ -31,7 +31,7 @@ class AllProfiles extends Component {
                 {isEmpty(profile.company) ? null : `at ${profile.company}`}
               </p>
               <p>{isEmpty(profile.location) ? null : profile.location}</p>
-              <Link to={`/${profile.handle}`} className="btn btn-info">
+              <Link to={`/profile/${profile.handle}`} className="btn btn-info">
                 View Profile
               </Link>
             </div>

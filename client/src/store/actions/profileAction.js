@@ -117,6 +117,25 @@ export const deleteEducation = (id, history) => {
   };
 };
 
+export const getProfileByHandle = handle => {
+  return dispatch => {
+    axios
+      .get(`/api/profile/handle/${handle}`)
+      .then(res => {
+        dispatch({
+          type: actionTypes.GET_PROFILE,
+          payload: res.data
+        });
+      })
+      .catch(e => {
+        dispatch({
+          type: actionTypes.GET_PROFILE,
+          payload: null
+        });
+      });
+  };
+};
+
 export const deleteExperience = (id, history) => {
   return dispatch => {
     axios
