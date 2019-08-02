@@ -12,6 +12,7 @@ import CreateProfile from "./components/createProfile/createProfile";
 import EditProfile from "./components/editProfile/EditProfile";
 import AddExperience from "./components/addCredentials/addExperience";
 import AddEducation from "./components/addCredentials/addEducation";
+import AllProfiles from "./components/allProfiles/allProfiles";
 
 import "./App.css";
 
@@ -33,6 +34,7 @@ class App extends Component {
           <Route path="/editprofile" component={EditProfile} />
           <Route path="/addexperience" component={AddExperience} />
           <Route path="/addeducation" component={AddEducation} />
+          <Route path="/profiles" component={AllProfiles} />
         </Switch>
         <Footer />
       </BrowserRouter>

@@ -52,6 +52,23 @@ export const postProfile = (data, history) => {
   };
 };
 
+export const getAllProfiles = () => {
+  return dispatch => {
+    axios
+      .get("/api/profile/all")
+      .then(res => {
+        dispatch(loading());
+        dispatch({
+          type: actionTypes.GET_PROFILES,
+          payload: res.data
+        });
+      })
+      .catch(e => {
+        dispatch(errorsHandle(e));
+      });
+  };
+};
+
 export const addExperience = (expData, history) => {
   return dispatch => {
     axios

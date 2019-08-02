@@ -38,6 +38,7 @@ router.get(
 //PUBLIC ROUTE
 router.get("/all", (req, res) => {
   Profile.find()
+    .populate("user", ["name", "avatar"])
     .then(profiles => {
       if (!profiles) {
         errors.noprofile = "No profiles found";

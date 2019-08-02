@@ -20,6 +20,12 @@ const profile = (state = initialState, action) => {
         profile: action.payload,
         loading: false
       };
+    case actionTypes.GET_PROFILES:
+      return {
+        ...state,
+        profiles: action.payload,
+        loading: false
+      };
     case actionTypes.CLEAR_CURRENT_PROFILE:
       return {
         ...state,
