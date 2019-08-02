@@ -84,6 +84,38 @@ export const addEducation = (eduData, history) => {
   };
 };
 
+export const deleteEducation = (id, history) => {
+  return dispatch => {
+    axios
+      .delete(`/api/profile/education/${id}`)
+      .then(res => {
+        dispatch({
+          type: actionTypes.GET_PROFILE,
+          payload: res.data
+        });
+      })
+      .catch(e => {
+        dispatch(errorsHandle(e));
+      });
+  };
+};
+
+export const deleteExperience = (id, history) => {
+  return dispatch => {
+    axios
+      .delete(`/api/profile/experience/${id}`)
+      .then(res => {
+        dispatch({
+          type: actionTypes.GET_PROFILE,
+          payload: res.data
+        });
+      })
+      .catch(e => {
+        dispatch(errorsHandle(e));
+      });
+  };
+};
+
 export const deleteAccount = () => {
   return dispatch => {
     if (window.confirm("Are you sure?")) {

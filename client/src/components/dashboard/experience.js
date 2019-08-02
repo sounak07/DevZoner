@@ -1,43 +1,58 @@
-// import React from "react";
-// import { Link } from "react-router-dom";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Moment from "react-moment";
+import { deleteExperience } from "../../store/actions/profileAction";
 
-// const experience = ({ experience }) => {
-//   const experiences = experience.map(exp => {
-//     <tr>
-//       <td>{exp.company}</td>
-//       <td>exp.</td>
-//       <td>02-03-2015 - Now</td>
-//       <td>
-//         <button class="btn btn-danger">Delete</button>
-//       </td>
-//     </tr>;
-//   });
+class Experiences extends Component {
+  onDelete = id => {
+    this.props.deleteExperience(id);
+  };
 
-//   return (
-//     <div>
-//       <h4 class="mb-2">Experience Credentials</h4>
-//       <table class="table">
-//         <thead>
-//           <tr>
-//             <th>Company</th>
-//             <th>Title</th>
-//             <th>Years</th>
-//             <th />
-//           </tr>
-//         </thead>
-//         <tbody>
-//           <tr>
-//             <td>Traversy Media</td>
-//             <td>Instructor & Developer</td>
-//             <td>02-03-2015 - Now</td>
-//             <td>
-//               <button class="btn btn-danger">Delete</button>
-//             </td>
-//           </tr>
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
+  render() {
+    const experiences = this.props.experience.map(exp => (
+      <tr key={exp._id}>
+        <td>{exp.company}</td>
+        <td>{exp.title}</td>
+        <td>
+          <Moment format="DD/MM/YYYY">{exp.from}</Moment> -{" "}
+          {exp.to == null ? (
+            "Now"
+          ) : (
+            <Moment format="DD/MM/YYYY">{exp.to}</Moment>
+          )}
+        </td>
 
-// export default experience;
+        <td>
+          <button
+            className="btn btn-danger"
+            onClick={this.onDelete.bind(this, exp._id)}
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    ));
+
+    return (
+      <div>
+        <h4 className="mb-2">Experience Credentials</h4>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Title</th>
+              <th>Years</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>{experiences}</tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+export default connect(
+  null,
+  { deleteExperience }
+)(Experiences);
