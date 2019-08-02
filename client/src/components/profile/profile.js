@@ -6,7 +6,6 @@ import ProfileCreds from "./profileCreds";
 import ProfileGithub from "./profileGithub";
 import ProfileAbout from "./profileAbout";
 import Spinner from "../UI/Spinner/Spinner";
-import profile from "../../store/reducers/profileReducer";
 import { getProfileByHandle } from "../../store/actions/profileAction";
 
 class Profile extends Component {

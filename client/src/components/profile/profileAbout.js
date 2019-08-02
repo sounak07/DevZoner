@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import isEmpty from "../../validations/isEmpty";
 
 class ProfileAbout extends Component {
   render() {
@@ -9,7 +10,12 @@ class ProfileAbout extends Component {
         <div className="col-md-12">
           <div className="card card-body bg-light mb-3">
             <h3 className="text-center text-info">{fName}'s Bio</h3>
-            <p className="lead">{profile.bio}</p>
+            {isEmpty(profile.bio) ? (
+              `${fName} doesnot have a bio`
+            ) : (
+              <p className="lead">{profile.bio}</p>
+            )}
+
             <hr />
             <h3 className="text-center text-info">Skill Set</h3>
             <div className="row">
