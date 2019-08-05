@@ -53,13 +53,6 @@ export const addPost = postData => dispatch => {
     );
 };
 
-export const getPost = data => {
-  return {
-    type: actionTypes.GET_POST,
-    payload: data
-  };
-};
-
 export const deletePost = id => {
   return dispatch => {
     axios
@@ -99,6 +92,21 @@ export const removeLike = id => {
       .catch(e => {
         dispatch(errorsHandler(e));
       });
+  };
+};
+
+export const getPost = id => {
+  return dispatch => {
+    dispatch(loading());
+    axios
+      .get(`/api/posts/${id}`)
+      .then(res =>
+        dispatch({
+          type: actionTypes.GET_POST,
+          payload: res.data
+        })
+      )
+      .catch(err => dispatch(errorsHandler(err.response.data)));
   };
 };
 

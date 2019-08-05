@@ -7,7 +7,6 @@ import {
   addLike,
   removeLike
 } from "../../store/actions/postAction";
-import Posts from "./Posts";
 
 class PostItem extends Component {
   removePost = id => {
@@ -52,41 +51,45 @@ class PostItem extends Component {
           </div>
           <div className="col-md-10">
             <p className="lead">{post.text}</p>
-            <button
-              onClick={this.like.bind(this, post._id)}
-              type="button"
-              className="btn btn-light mr-1"
-            >
-              <i
-                className={classnames("fas fa-thumbs-up", {
-                  "text-info": this.findLike(post.likes)
-                })}
-              />
-              <span className="badge badge-light">{post.likes.length}</span>
-            </button>
-            <button
-              onClick={this.unlike.bind(this, post._id)}
-              type="button"
-              className="btn btn-light mr-1"
-            >
-              <i className="text-secondary fas fa-thumbs-down" />
-            </button>
-            <Link
-              to={`post/${post._id}`}
-              style={{ color: "#055763" }}
-              className="btn"
-            >
-              Comments
-            </Link>
-            {post.user === auth.user.id ? (
-              <button
-                type="button"
-                onClick={this.removePost.bind(this, post._id)}
-                style={{ color: "#dc3545" }}
-                className="btn"
-              >
-                <i className="fas fa-times" />
-              </button>
+            {this.props.showActions ? (
+              <span>
+                <button
+                  onClick={this.like.bind(this, post._id)}
+                  type="button"
+                  className="btn btn-light mr-1"
+                >
+                  <i
+                    className={classnames("fas fa-thumbs-up", {
+                      "text-info": this.findLike(post.likes)
+                    })}
+                  />
+                  <span className="badge badge-light">{post.likes.length}</span>
+                </button>
+                <button
+                  onClick={this.unlike.bind(this, post._id)}
+                  type="button"
+                  className="btn btn-light mr-1"
+                >
+                  <i className="text-secondary fas fa-thumbs-down" />
+                </button>
+                <Link
+                  to={`post/${post._id}`}
+                  style={{ color: "#055763" }}
+                  className="btn"
+                >
+                  Comments
+                </Link>
+                {post.user === auth.user.id ? (
+                  <button
+                    type="button"
+                    onClick={this.removePost.bind(this, post._id)}
+                    style={{ color: "#dc3545" }}
+                    className="btn"
+                  >
+                    <i className="fas fa-times" />
+                  </button>
+                ) : null}
+              </span>
             ) : null}
           </div>
         </div>

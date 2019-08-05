@@ -34,11 +34,11 @@ class Register extends Component {
   };
 
   render() {
-    const errors = this.props.errors;
+    const { errors, isAuthenticated } = this.props.auth;
 
     return (
       <div>
-        {this.props.isAuth ? this.props.history.push("/dashboard") : null}
+        {isAuthenticated ? this.props.history.push("/dashboard") : null}
         <div className="register">
           <div className="container">
             <div className="row">
@@ -97,8 +97,7 @@ class Register extends Component {
 const mapStateToProps = state => {
   return {
     isAuth: state.auth.isAuthenticated,
-    user: state.auth.user,
-    errors: state.auth.errors
+    auth: state.auth
   };
 };
 
