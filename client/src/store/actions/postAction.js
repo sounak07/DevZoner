@@ -9,6 +9,32 @@ export const errorsHandler = errors => {
   };
 };
 
+export const loading = () => {
+  return {
+    type: actionTypes.POSTS_LOADING
+  };
+};
+
+export const getPosts = () => {
+  return dispatch => {
+    dispatch(loading());
+    axios
+      .get("/api/posts/all")
+      .then(res =>
+        dispatch({
+          type: actionTypes.GET_POSTS,
+          payload: res.data
+        })
+      )
+      .catch(err =>
+        dispatch({
+          type: actionTypes.GET_POSTS,
+          payload: {}
+        })
+      );
+  };
+};
+
 export const addPost = postData => dispatch => {
   dispatch(clearErrors());
   axios

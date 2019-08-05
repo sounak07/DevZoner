@@ -14,6 +14,18 @@ const post = (state = initialState, action) => {
         posts: [action.payload, ...state.posts],
         loading: false
       };
+    case actionTypes.GET_POSTS:
+      return {
+        ...state,
+        posts: action.payload,
+        loading: false
+      };
+    case actionTypes.GET_POST:
+      return {
+        ...state,
+        post: action.payload,
+        loading: false
+      };
     case actionTypes.POSTS_LOADING:
       return {
         ...state,
