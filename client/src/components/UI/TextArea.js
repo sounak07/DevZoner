@@ -1,10 +1,21 @@
 import React from "react";
 import classnames from "classnames";
 
-const textArea = ({ name, placeholder, value, error, info, onChange }) => {
+const textArea = ({
+  name,
+  placeholder,
+  value,
+  error,
+  info,
+  onChange,
+  cols,
+  rows
+}) => {
   return (
     <div className="form-group">
       <textarea
+        cols={cols}
+        rows={rows}
         value={value}
         className={classnames("form-control form-control-lg", {
           "is-invalid": error

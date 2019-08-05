@@ -39,6 +39,8 @@ class Posts extends Component {
             <form noValidate onSubmit={this.submitHandler}>
               <div className="form-group">
                 <TextArea
+                  rows="5"
+                  cols="50"
                   placeholder="Create a post"
                   name="text"
                   value={this.state.text}
