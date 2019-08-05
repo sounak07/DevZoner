@@ -2,11 +2,33 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
-import { deletePost } from "../../store/actions/postAction";
+import {
+  deletePost,
+  addLike,
+  removeLike
+} from "../../store/actions/postAction";
+import Posts from "./Posts";
 
 class PostItem extends Component {
   removePost = id => {
     this.props.deletePost(id);
+  };
+
+  like = id => {
+    this.props.addLike(id);
+  };
+
+  unlike = id => {
+    this.props.removeLike(id);
+  };
+
+  findLike = likes => {
+    const { id } = this.props.auth;
+    if (likes.filter(like => this.like.user === id).length > 0) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   render() {
@@ -30,11 +52,23 @@ class PostItem extends Component {
           </div>
           <div className="col-md-10">
             <p className="lead">{post.text}</p>
-            <button type="button" className="btn btn-light mr-1">
-              <i className="text-info fas fa-thumbs-up" />
+            <button
+              onClick={this.like.bind(this, post._id)}
+              type="button"
+              className="btn btn-light mr-1"
+            >
+              <i
+                className={classnames("fas fa-thumbs-up", {
+                  "text-info": this.findLike(post.likes)
+                })}
+              />
               <span className="badge badge-light">{post.likes.length}</span>
             </button>
-            <button type="button" className="btn btn-light mr-1">
+            <button
+              onClick={this.unlike.bind(this, post._id)}
+              type="button"
+              className="btn btn-light mr-1"
+            >
               <i className="text-secondary fas fa-thumbs-down" />
             </button>
             <Link
@@ -69,5 +103,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { deletePost }
+  { deletePost, addLike, removeLike }
 )(PostItem);
