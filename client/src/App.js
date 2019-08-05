@@ -14,6 +14,7 @@ import AddExperience from "./components/addCredentials/addExperience";
 import AddEducation from "./components/addCredentials/addEducation";
 import AllProfiles from "./components/allProfiles/allProfiles";
 import Profile from "./components/profile/profile.js";
+import Posts from "./components/posts/Posts";
 
 import "./App.css";
 
@@ -37,6 +38,7 @@ class App extends Component {
           <Route path="/addeducation" component={AddEducation} />
           <Route path="/profiles" component={AllProfiles} />
           <Route path="/profile/:handle" component={Profile} />
+          <Route path="/postfeed" component={Posts} />
         </Switch>
         <Footer />
       </BrowserRouter>

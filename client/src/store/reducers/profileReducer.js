@@ -29,6 +29,7 @@ const profile = (state = initialState, action) => {
     case actionTypes.CLEAR_CURRENT_PROFILE:
       return {
         ...state,
+        loading: false,
         profile: null
       };
     default:

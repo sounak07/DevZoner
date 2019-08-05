@@ -5,7 +5,7 @@ const passport = require("passport");
 
 const Post = require("../../models/Post");
 const Profile = require("../../models/Post");
-const validationPostInput = require("../../validation/postValidation");
+const validatePostInput = require("../../validation/postValidation");
 const validationCommentInput = require("../../validation/commentValidation");
 
 //GET ALL POSTS
@@ -162,32 +162,25 @@ router.delete(
 //POST POSTS
 //PRIVATE ROUTE
 router.post(
-  "/addPost",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    const { errors, isValid } = validationPostInput(req.body);
+    const { errors, isValid } = validatePostInput(req.body);
 
-    // const errors = {};
-
+    // Check Validation
     if (!isValid) {
+      // If any errors, send 400 with errors object
       return res.status(400).json(errors);
     }
-    const postData = new Post({
+
+    const newPost = new Post({
       text: req.body.text,
       name: req.body.name,
       avatar: req.body.avatar,
       user: req.user.id
     });
 
-    postData
-      .save()
-      .then(post => {
-        res.status(200).json(post);
-      })
-      .catch(e => {
-        errors.nopost = "Could not save";
-        res.status(400).json();
-      });
+    newPost.save().then(post => res.json(post));
   }
 );
 

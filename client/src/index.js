@@ -9,11 +9,13 @@ import authReducer from "./store/reducers/auth";
 import profileReducer from "./store/reducers/profileReducer";
 import errorReducer from "./store/reducers/errorReducer";
 import * as serviceWorker from "./serviceWorker";
+import postReducer from "./store/reducers/postReducer";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   profile: profileReducer,
-  error: errorReducer
+  error: errorReducer,
+  post: postReducer
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
