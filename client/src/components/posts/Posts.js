@@ -26,7 +26,7 @@ class Posts extends Component {
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <PostForm />
+              {this.props.auth ? <PostForm /> : null}
               {postContent}
             </div>
           </div>
@@ -38,7 +38,8 @@ class Posts extends Component {
 
 const mapStateToProps = state => {
   return {
-    post: state.post
+    post: state.post,
+    auth: state.auth.isAuthenticated
   };
 };
 
