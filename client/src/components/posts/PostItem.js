@@ -23,8 +23,8 @@ class PostItem extends Component {
   };
 
   findLike = likes => {
-    const { id } = this.props.auth;
-    if (likes.filter(like => this.like.user === id).length > 0) {
+    const { auth } = this.props;
+    if (likes.filter(like => like.user === auth.user.id).length > 0) {
       return true;
     } else {
       return false;
@@ -34,7 +34,7 @@ class PostItem extends Component {
   render() {
     const { post } = this.props;
 
-    const { isAuthenticated } = this.props.auth;
+    const { auth } = this.props;
 
     return (
       <div className="card card-body mb-3">
@@ -78,7 +78,7 @@ class PostItem extends Component {
             >
               Comments
             </Link>
-            {isAuthenticated ? (
+            {post.user === auth.user.id ? (
               <button
                 type="button"
                 onClick={this.removePost.bind(this, post._id)}

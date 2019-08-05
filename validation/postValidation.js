@@ -6,7 +6,7 @@ module.exports = function postInputValid(data) {
 
   data.text = !isEmpty(data.text) ? data.text : "";
 
-  if (!validator.isLength(data.text, { min: 10, max: 40 })) {
+  if (!validator.isLength(data.text, { min: 10, max: 1000 })) {
     errors.text = "text needs to between 10 and 40 characters";
   }
 
