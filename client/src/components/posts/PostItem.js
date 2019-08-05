@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import { Link } from "react-router-dom";
+import { deletePost } from "../../store/actions/postAction";
 
 class PostItem extends Component {
-  deletePost = id => {
-    console.log(id);
+  removePost = id => {
+    this.props.deletePost(id);
   };
 
   render() {
@@ -36,14 +37,19 @@ class PostItem extends Component {
             <button type="button" className="btn btn-light mr-1">
               <i className="text-secondary fas fa-thumbs-down" />
             </button>
-            <Link to={`post/${post._id}`} className="btn btn-info mr-1">
+            <Link
+              to={`post/${post._id}`}
+              style={{ color: "#055763" }}
+              className="btn"
+            >
               Comments
             </Link>
             {isAuthenticated ? (
               <button
                 type="button"
-                onClick={this.deletePost.bind(this, post._id)}
-                className="btn btn-danger mr-1"
+                onClick={this.removePost.bind(this, post._id)}
+                style={{ color: "#dc3545" }}
+                className="btn"
               >
                 <i className="fas fa-times" />
               </button>
@@ -61,4 +67,7 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(PostItem);
+export default connect(
+  mapStateToProps,
+  { deletePost }
+)(PostItem);

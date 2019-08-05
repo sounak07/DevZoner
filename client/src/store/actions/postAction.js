@@ -53,6 +53,22 @@ export const addPost = postData => dispatch => {
     );
 };
 
+export const deletePost = id => {
+  return dispatch => {
+    axios
+      .delete(`api/posts/removePost/${id}`)
+      .then(res => {
+        dispatch({
+          type: actionTypes.DELETE_POST,
+          payload: id
+        });
+      })
+      .catch(e => {
+        dispatch(errorsHandler(e));
+      });
+  };
+};
+
 export const clearErrors = () => {
   return {
     type: actionTypes.CLEAR_ERRORS

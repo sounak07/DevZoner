@@ -31,6 +31,19 @@ const post = (state = initialState, action) => {
         ...state,
         loading: true
       };
+    case actionTypes.DELETE_POST:
+      const updatedPosts = [...state.posts];
+
+      const updatedPostIndex = updatedPosts
+        .map(post => post._id)
+        .indexOf(action.payload);
+
+      updatedPosts.splice(updatedPostIndex, 1);
+
+      return {
+        ...state,
+        posts: updatedPosts
+      };
     default:
       return state;
   }

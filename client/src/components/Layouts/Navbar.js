@@ -39,6 +39,11 @@ class Navbar extends Component {
             {!this.props.auth ? (
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
+                  <NavLink className="nav-link" to="/postfeed">
+                    Post feed
+                  </NavLink>
+                </li>
+                <li className="nav-item">
                   <NavLink className="nav-link" to="/login">
                     Login
                   </NavLink>
