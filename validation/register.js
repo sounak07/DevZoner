@@ -1,7 +1,7 @@
 const validator = require("validator");
 const isEmpty = require("./is-Empty");
 
-module.exports = function registrationValid(data) {
+module.exports = function registrationValid(data, type) {
   let errors = {};
 
   data.name = !isEmpty(data.name) ? data.name : "";
@@ -18,19 +18,19 @@ module.exports = function registrationValid(data) {
   }
 
   if (!validator.isEmail(data.email)) {
-    errors.email = "Email not valid";
+    errors[`${type}Email`] = "Email not valid";
   }
 
   if (validator.isEmpty(data.email)) {
-    errors.email = "Email cannot be empty";
+    errors[`${type}Email`] = "Email cannot be empty";
   }
 
   if (!validator.isLength(data.password, { min: 6, max: 30 })) {
-    errors.password = "Password must have atleast 6 characters";
+    errors[`${type}Password`] = "Password must have atleast 6 characters";
   }
 
   if (validator.isEmpty(data.password)) {
-    errors.password = "Password cannot be empty";
+    errors[`${type}Password`] = "Password cannot be empty";
   }
 
   if (!validator.equals(data.password, data.password2)) {

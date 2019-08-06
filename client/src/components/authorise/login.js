@@ -48,7 +48,7 @@ class Login extends Component {
                     name="email"
                     placeholder="Email Address"
                     onChange={this.inputHandler}
-                    error={errors.email}
+                    error={errors.loginEmail}
                     value={this.state.email}
                   />
                   <Input
@@ -56,7 +56,7 @@ class Login extends Component {
                     name="password"
                     placeholder="Password"
                     onChange={this.inputHandler}
-                    error={errors.password}
+                    error={errors.loginPassword}
                     value={this.state.password}
                   />
                   <input

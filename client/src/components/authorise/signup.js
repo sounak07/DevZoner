@@ -59,7 +59,7 @@ class Register extends Component {
                     name="email"
                     placeholder="Email Address"
                     onChange={this.inputHandler}
-                    error={errors.email}
+                    error={errors.signupEmail}
                     value={this.state.email}
                     info="This site uses Gravatar so if you want a profile image,
                     use a Gravatar email"
@@ -69,7 +69,7 @@ class Register extends Component {
                     name="password"
                     placeholder="Password"
                     onChange={this.inputHandler}
-                    error={errors.password}
+                    error={errors.signupPassword}
                     value={this.state.password}
                   />
                   <Input

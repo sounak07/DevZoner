@@ -14,7 +14,7 @@ const validationLoginInput = require("../../validation/login");
 
 //user register route
 router.post("/register", (req, res) => {
-  const { errors, isValid } = validationRegisterInput(req.body);
+  const { errors, isValid } = validationRegisterInput(req.body, "signup");
 
   if (!isValid) {
     return res.status(400).json(errors);
@@ -74,7 +74,7 @@ router.post("/register", (req, res) => {
 
 //login route
 router.post("/login", (req, res) => {
-  const { errors, isValid } = validationLoginInput(req.body);
+  const { errors, isValid } = validationLoginInput(req.body, "login");
 
   if (!isValid) {
     return res.status(400).json(errors);
@@ -82,7 +82,7 @@ router.post("/login", (req, res) => {
 
   User.findOne({ email: req.body.email }).then(user => {
     if (!user) {
-      errors.email = "User doesnot exist!";
+      errors.loginEmail = "User doesnot exist!";
       res.status(404).json(errors);
     }
 
@@ -103,7 +103,7 @@ router.post("/login", (req, res) => {
           });
         });
       } else {
-        errors.password = "Incorrect Password";
+        errors.loginPassword = "Incorrect Password";
         return res.status(404).json(errors);
       }
     });
