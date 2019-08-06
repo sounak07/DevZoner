@@ -1,11 +1,26 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import TextArea from "../UI/TextArea";
-import { addPost } from "../../store/actions/postAction";
+import { connect } from "react-redux";
+import { postComment } from "../../store/actions/postAction";
 
-class Posts extends Component {
+class CommentForm extends Component {
   state = {
-    text: ""
+    comment: ""
+  };
+  submitHandler = event => {
+    event.preventDefault();
+
+    const { name, avatar } = this.props.auth.user;
+
+    const { _id } = this.props.post.post;
+
+    const data = {
+      name: name,
+      avatar: avatar,
+      text: this.state.comment
+    };
+    this.props.postComment(_id, data);
+    this.setState({ comment: "" });
   };
 
   onChange = event => {
@@ -14,23 +29,11 @@ class Posts extends Component {
     });
   };
 
-  submitHandler = event => {
-    event.preventDefault();
-
-    const { name, avatar } = this.props.auth.user;
-
-    const data = {
-      text: this.state.text,
-      name: name,
-      avatar: avatar
-    };
-
-    this.props.addPost(data);
-    this.setState({ text: "" });
-  };
-
   render() {
-    const { errors } = this.props.error;
+    const { errors } = this.props.errors;
+
+    console.log(errors);
+
     return (
       <div className="post-form mb-3">
         <div className="card card-info">
@@ -39,13 +42,11 @@ class Posts extends Component {
             <form noValidate onSubmit={this.submitHandler}>
               <div className="form-group">
                 <TextArea
-                  rows="5"
-                  cols="50"
-                  placeholder="Create a post"
-                  name="text"
-                  value={this.state.text}
+                  placeholder="Say Something..."
+                  name="comment"
+                  value={this.state.comment}
                   onChange={this.onChange}
-                  error={errors.text}
+                  error={errors.comment}
                 />
               </div>
               <button type="submit" className="btn btn-dark">
@@ -61,12 +62,13 @@ class Posts extends Component {
 
 const mapStateToProps = state => {
   return {
+    errors: state.error,
     auth: state.auth,
-    error: state.error
+    post: state.post
   };
 };
 
 export default connect(
   mapStateToProps,
-  { addPost }
-)(Posts);
+  { postComment }
+)(CommentForm);

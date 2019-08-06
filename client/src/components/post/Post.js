@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { getPost, loading } from "../../store/actions/postAction";
+import { getPost } from "../../store/actions/postAction";
 import Spinner from "../UI/Spinner/Spinner";
 import PostItem from "../posts/PostItem";
+import CommentForm from "./CommentForm";
 
 class Post extends Component {
   componentDidMount() {
@@ -24,7 +25,10 @@ class Post extends Component {
     return (
       <div>
         {!this.props.auth ? <Redirect to="/login" /> : null}
-        <div className="container">{postContent}</div>
+        <div className="container">
+          {postContent}
+          <CommentForm />
+        </div>
       </div>
     );
   }

@@ -106,7 +106,26 @@ export const getPost = id => {
           payload: res.data
         })
       )
-      .catch(err => dispatch(errorsHandler(err.response.data)));
+      .catch(err => {
+        dispatch(errorsHandler(err.response.data));
+      });
+  };
+};
+
+export const postComment = (id, data) => {
+  return dispatch => {
+    dispatch(clearErrors());
+    axios
+      .post(`/api/posts/addComment/${id}`, data)
+      .then(res => {
+        dispatch({
+          type: actionTypes.GET_POST,
+          payload: res.data
+        });
+      })
+      .catch(e => {
+        dispatch(errorsHandler(e));
+      });
   };
 };
 
