@@ -5,6 +5,7 @@ import { getPost } from "../../store/actions/postAction";
 import Spinner from "../UI/Spinner/Spinner";
 import PostItem from "../posts/PostItem";
 import CommentForm from "./CommentForm";
+import CommentFeed from "./CommentFeed";
 
 class Post extends Component {
   componentDidMount() {
@@ -28,6 +29,7 @@ class Post extends Component {
         <div className="container">
           {postContent}
           <CommentForm />
+          <CommentFeed post={post} />
         </div>
       </div>
     );

@@ -77,7 +77,10 @@ class PostItem extends Component {
                   style={{ color: "#055763" }}
                   className="btn"
                 >
-                  Comments
+                  Comments{" "}
+                  <span className="badge badge-light">
+                    {post.comments.length}
+                  </span>
                 </Link>
                 {post.user === auth.user.id ? (
                   <button

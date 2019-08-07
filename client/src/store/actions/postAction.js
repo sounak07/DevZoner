@@ -129,6 +129,22 @@ export const postComment = (id, data) => {
   };
 };
 
+export const deleteComment = id => {
+  return dispatch => {
+    axios
+      .delete(`/api/posts/removeComment/${id}`)
+      .then(res => {
+        dispatch({
+          type: actionTypes.GET_POST,
+          payload: res.data
+        });
+      })
+      .catch(e => {
+        dispatch(errorsHandler(e));
+      });
+  };
+};
+
 export const clearErrors = () => {
   return {
     type: actionTypes.CLEAR_ERRORS
