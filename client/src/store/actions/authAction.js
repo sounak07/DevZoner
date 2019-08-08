@@ -62,7 +62,6 @@ export const checkAuthState = () => {
       const currentTime = Date.now() / 1000;
       if (currentTime > decoded.exp) {
         dispatch(logout());
-        dispatch(clearProfile());
         window.location.href = "/login";
       }
     }
