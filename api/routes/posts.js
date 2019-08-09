@@ -80,35 +80,28 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     let errors = {};
-    Profile.findOne({ user: req.user.id })
-      .then(profile => {
-        if (!profile) {
-          errors.noprofile = "Then :No profile found";
-          res.status(404).json(errors);
-        } else {
-          Post.findById(req.params.post_id).then(post => {
-            if (post) {
-              if (
-                post.likes.filter(like => like.user.toString() === req.user.id)
-                  .length > 0
-              ) {
-                errors.isLike = "User liked already";
-                return res.status(400).json(errors);
-              }
+    Post.findById(req.params.post_id)
+      .then(post => {
+        if (post) {
+          if (
+            post.likes.filter(like => like.user.toString() === req.user.id)
+              .length > 0
+          ) {
+            errors.isLike = "User liked already";
+            return res.status(400).json(errors);
+          }
 
-              post.likes.unshift({ user: req.user.id });
-              post.save().then(post => {
-                res.status(200).json(post);
-              });
-            } else {
-              errors.nopost = "No post found";
-              res.status(404).json(errors);
-            }
+          post.likes.unshift({ user: req.user.id });
+          post.save().then(post => {
+            res.status(200).json(post);
           });
+        } else {
+          errors.nopost = "No post found";
+          res.status(404).json(errors);
         }
       })
       .catch(e => {
-        errors.noprofile = "No profile found";
+        errors.noprofile = "No posts found";
         res.status(404).json(errors);
       });
   }
@@ -121,39 +114,32 @@ router.delete(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     let errors = {};
-    Profile.findOne({ user: req.user.id })
-      .then(profile => {
-        if (!profile) {
-          errors.noprofile = "No profile found";
-          res.status(404).json(errors);
-        } else {
-          Post.findById(req.params.post_id).then(post => {
-            if (post) {
-              if (
-                post.likes.filter(like => like.user.toString() === req.user.id)
-                  .length === 0
-              ) {
-                errors.notLiked = "Post not liked by user";
-                return res.status(400).json(errors);
-              }
+    Post.findById(req.params.post_id)
+      .then(post => {
+        if (post) {
+          if (
+            post.likes.filter(like => like.user.toString() === req.user.id)
+              .length === 0
+          ) {
+            errors.notLiked = "Post not liked by user";
+            return res.status(400).json(errors);
+          }
 
-              const removelikeIndex = post.likes
-                .map(like => like.user)
-                .indexOf(req.user.id);
+          const removelikeIndex = post.likes
+            .map(like => like.user)
+            .indexOf(req.user.id);
 
-              post.likes.splice(removelikeIndex, 1);
-              post.save().then(post => {
-                res.status(200).json(post);
-              });
-            } else {
-              errors.nopost = "No post found";
-              res.status(404).json(errors);
-            }
+          post.likes.splice(removelikeIndex, 1);
+          post.save().then(post => {
+            res.status(200).json(post);
           });
+        } else {
+          errors.nopost = "No post found";
+          res.status(404).json(errors);
         }
       })
       .catch(e => {
-        errors.noprofile = "No profile found";
+        errors.noprofile = "No posts found";
         res.status(404).json(errors);
       });
   }

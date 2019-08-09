@@ -45,6 +45,25 @@ const PostSchema = new Schema({
       }
     }
   ],
+  notifications: [
+    {
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "users"
+      },
+      postOwner: {
+        type: Schema.Types.ObjectId,
+        ref: "users"
+      },
+      name: {
+        type: String
+      },
+      date: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ],
   date: {
     type: Date,
     default: Date.now
