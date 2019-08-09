@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { logout } from "../../store/actions/authAction";
-import { clearProfile } from "../../store/actions/profileAction";
+import { logout, showNotification } from "../../store/actions/authAction";
 
 class Navbar extends Component {
   onLogOut = e => {
     e.preventDefault();
     this.props.logout();
+  };
+
+  notiFiClick = () => {
+    this.props.showNotification();
   };
 
   render() {
@@ -56,6 +59,11 @@ class Navbar extends Component {
             ) : (
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">
+                  <a className="nav-link" onClick={this.notiFiClick} href="#">
+                    <i class="fas fa-bell" />
+                  </a>
+                </li>
+                <li className="nav-item">
                   <NavLink className="nav-link" to="/postfeed">
                     Post feed
                   </NavLink>
@@ -95,5 +103,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { logout }
+  { logout, showNotification }
 )(Navbar);

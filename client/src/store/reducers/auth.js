@@ -4,7 +4,8 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   isAuthenticated: false,
   user: {},
-  errors: {}
+  errors: {},
+  notify: false
 };
 
 const authReducer = (state = initialState, action) => {
@@ -20,6 +21,12 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         errors: action.payload
+      };
+    case actionTypes.SHOW_NOTIFICATION:
+      const current = state.notify;
+      return {
+        ...state,
+        notify: !current
       };
     default:
       return state;

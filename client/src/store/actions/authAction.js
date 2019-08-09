@@ -81,3 +81,8 @@ export const logout = () => {
     dispatch(logoutHandler());
   };
 };
+export const showNotification = () => {
+  return {
+    type: actionTypes.SHOW_NOTIFICATION
+  };
+};

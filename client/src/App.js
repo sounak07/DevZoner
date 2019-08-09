@@ -16,6 +16,7 @@ import AllProfiles from "./components/allProfiles/allProfiles";
 import Profile from "./components/profile/profile.js";
 import Posts from "./components/posts/Posts";
 import Post from "./components/post/Post";
+import NotifyBox from "./components/notifications/NotifyBox";
 
 import "./App.css";
 
@@ -28,6 +29,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <Navbar />
+        {this.props.notify ? <NotifyBox /> : null}
         <Switch>
           <Route exact path="/" component={Landing} />
           <Route path="/signup" component={Register} />
@@ -48,7 +50,13 @@ class App extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    notify: state.auth.notify
+  };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   { checkAuthState }
 )(App);
