@@ -7,10 +7,7 @@ class NotifyBox extends Component {
       <div class="popover__wrapper">
         <div class="popover__content">
           <ul class="list-group">
-            <li class="list-group-item">
-              Cras justo odio qwert qewe q3eweew qeewe qeqeq wertyuwertyu
-              wtwdywdwdtuwdtwudtwu
-            </li>
+            <li class="list-group-item">Cras justo odio qwert dtwudtwu</li>
             <li class="list-group-item">Dapibus ac facilisis in</li>
             <li class="list-group-item">Morbi leo risus</li>
             <li class="list-group-item">Porta ac consectetur ac</li>
