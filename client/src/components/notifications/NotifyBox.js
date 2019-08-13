@@ -1,13 +1,18 @@
 import React, { Component } from "react";
 import NotifyItem from "./NotifyItem";
 import { connect } from "react-redux";
+import { getNotifications } from "../../store/actions/postAction";
 
 class Notify extends Component {
+  componentDidMount() {
+    this.props.getNotifications();
+  }
+
   render() {
     const { id } = this.props.user;
-    const notifyItems = this.props.posts.map(post => (
-      <NotifyItem key={post._id} id={id} notifics={post.notifications} />
-    ));
+    const { notifications } = this.props.notifications;
+
+    let notifyItems = <NotifyItem id={id} notifics={notifications} />;
 
     return <div>{notifyItems}</div>;
   }
@@ -15,9 +20,12 @@ class Notify extends Component {
 
 const mapStateToProps = state => {
   return {
-    posts: state.post.posts,
+    notifications: state.post,
     user: state.auth.user
   };
 };
 
-export default connect(mapStateToProps)(Notify);
+export default connect(
+  mapStateToProps,
+  { getNotifications }
+)(Notify);

@@ -5,6 +5,7 @@ const passport = require("passport");
 
 const Post = require("../../models/Post");
 const Profile = require("../../models/Post");
+const Notifications = require("../../models/Notifications");
 const validatePostInput = require("../../validation/postValidation");
 const validationCommentInput = require("../../validation/commentValidation");
 
@@ -19,9 +20,27 @@ router.get("/all", (req, res) => {
     })
     .catch(e => {
       errors.noposts = "No posts found";
-      res.status(404).json();
+      res.status(404).json(errors);
     });
 });
+
+//GET ALL NOTIFICATIONS
+router.get(
+  "/notifications",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    let errors = {};
+    Notifications.find()
+      .sort({ date: -1 })
+      .then(notis => {
+        res.status(200).json(notis);
+      })
+      .catch(e => {
+        errors.noNotifies = "No notifications found";
+        res.status(404).json(errors);
+      });
+  }
+);
 
 //GET POSTS BY ID
 //PUBLIC ROUTE
@@ -91,10 +110,18 @@ router.post(
             return res.status(400).json(errors);
           }
 
+          const notifyItems = new Notifications({
+            user: req.user.id,
+            postOwner: post._id,
+            name: req.user.name
+          });
+
           post.likes.unshift({ user: req.user.id });
           post.save().then(post => {
             res.status(200).json(post);
           });
+
+          notifyItems.save().then(() => console.log("Done"));
         } else {
           errors.nopost = "No post found";
           res.status(404).json(errors);

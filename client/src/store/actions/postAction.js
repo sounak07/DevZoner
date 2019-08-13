@@ -2,13 +2,6 @@ import axios from "axios";
 
 import * as actionTypes from "../actions/actionTypes";
 
-export const errorsHandler = errors => {
-  return {
-    type: actionTypes.ALL_ERRORS,
-    payload: errors.response.data
-  };
-};
-
 export const loading = () => {
   return {
     type: actionTypes.POSTS_LOADING
@@ -129,6 +122,12 @@ export const postComment = (id, data) => {
   };
 };
 
+export const errorsHandler = errors => {
+  return {
+    type: actionTypes.ALL_ERRORS,
+    payload: errors.response.data
+  };
+};
 export const deleteComment = id => {
   return dispatch => {
     axios
@@ -141,6 +140,22 @@ export const deleteComment = id => {
       })
       .catch(e => {
         dispatch(errorsHandler(e));
+      });
+  };
+};
+
+export const getNotifications = () => {
+  return dispatch => {
+    axios
+      .get("/api/posts/notifications")
+      .then(res => {
+        dispatch({
+          type: actionTypes.SHOW_NOTIFICATIONS,
+          payload: res.data
+        });
+      })
+      .catch(e => {
+        console.log("hey sounak bro");
       });
   };
 };

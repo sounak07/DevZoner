@@ -1,13 +1,23 @@
 import React, { Component } from "react";
+import isEmpty from "../../validations/isEmpty";
 import "./NotifyBox.css";
 
 class NotifyItem extends Component {
   render() {
-    const items = this.props.notifics.splice(0, 6).map(noti => {
-      if (this.props.id === noti.postOwner) {
-        return <li className="list-group-item">{noti.name} likes your post</li>;
-      }
-    });
+    let items;
+
+    if (isEmpty(this.props.notifics)) {
+      items = <li className="list-group-item">No Notifications!</li>;
+    } else {
+      items = this.props.notifics.splice(0, 7).map(noti => {
+        return (
+          <li key={noti._id} className="list-group-item">
+            {noti.name} likes your post
+          </li>
+        );
+      });
+    }
+
     return (
       <div className="popover__wrapper">
         <div className="popover__content">

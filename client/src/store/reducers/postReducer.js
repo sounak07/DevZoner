@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
   post: {},
   posts: [],
+  notifications: [],
   loading: false
 };
 
@@ -12,6 +13,12 @@ const post = (state = initialState, action) => {
       return {
         ...state,
         posts: [action.payload, ...state.posts],
+        loading: false
+      };
+    case actionTypes.SHOW_NOTIFICATIONS:
+      return {
+        ...state,
+        notifications: action.payload,
         loading: false
       };
     case actionTypes.GET_POSTS:

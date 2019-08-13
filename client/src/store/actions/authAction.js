@@ -1,7 +1,6 @@
 import axios from "axios";
 import jwtDecoded from "jwt-decode";
 import setAuthToken from "../../utils/setAuthToken";
-import { clearProfile } from "./profileAction";
 
 import * as actionTypes from "../actions/actionTypes";
 
@@ -54,7 +53,6 @@ export const checkAuthState = () => {
   return dispatch => {
     const token = localStorage.getItem("jwtToken");
     if (token) {
-      setAuthToken(token);
       setAuthToken(token);
       const decoded = jwtDecoded(token);
       dispatch(saveUser(decoded));
