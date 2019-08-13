@@ -112,7 +112,7 @@ router.post(
 
           const notifyItems = new Notifications({
             user: req.user.id,
-            postOwner: post._id,
+            postOwner: post.user,
             name: req.user.name
           });
 

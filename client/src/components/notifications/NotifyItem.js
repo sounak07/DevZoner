@@ -10,11 +10,13 @@ class NotifyItem extends Component {
       items = <li className="list-group-item">No Notifications!</li>;
     } else {
       items = this.props.notifics.splice(0, 7).map(noti => {
-        return (
-          <li key={noti._id} className="list-group-item">
-            {noti.name} likes your post
-          </li>
-        );
+        if (noti.postOwner === this.props.id) {
+          return (
+            <li key={noti._id} className="list-group-item">
+              {noti.name} likes your post.
+            </li>
+          );
+        }
       });
     }
 
